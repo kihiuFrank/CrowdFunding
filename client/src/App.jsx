@@ -15,6 +15,9 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/create-campaign" element={<CreateCampaign />} />
+          <Route path="/create-details" element={<CampaignDetails />} />
         </Routes>
       </div>
     </div>
