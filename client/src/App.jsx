@@ -10,7 +10,7 @@ function App() {
       <div className="sm:flex hidden mr-10 relative">
         <Sidebar />
       </div>
-      <h1>Test</h1>
+      <p className="font-xl font-bold">Test</p>
       <div className="flex-1 max-sm:w-full max-w-[1280px] mx-auto sm:pr-5">
         <Navbar />
         <Routes>
