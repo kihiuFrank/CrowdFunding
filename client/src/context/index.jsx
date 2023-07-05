@@ -13,8 +13,10 @@ const StateContext = createContext();
 export const StateContextProvider = ({ children }) => {
   const { contract } = useContract(
     // smart contract address
-    "0xcebB09233dd3D5023060C96aeb6C448fc4be1307"
+    "0xC6496fC44B1494567bf16860B8b21a78e20c2f64"
+    //"marketplace"
   );
+
   const { mutateAsync: createCampaign } = useContractWrite(
     contract,
     "createCampaign"
@@ -43,7 +45,7 @@ export const StateContextProvider = ({ children }) => {
 
   return (
     <StateContext.Provider
-      value={{ address, contract, createCampaign: publishCampaign }}
+      value={{ address, contract, connect, createCampaign: publishCampaign }}
     >
       {children}
     </StateContext.Provider>
