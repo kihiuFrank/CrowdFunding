@@ -27,15 +27,17 @@ export const StateContextProvider = ({ children }) => {
 
   const publishCampaign = async (form) => {
     try {
-      const data = await createCampaign([
-        // items have to be in the order they were the contract inside createCampaign()
-        address, // owner of the campaign
-        form.title, // title
-        form.description, // description
-        form.target,
-        new Date(form.deadline).getTime(),
-        form.image,
-      ]);
+      const data = await createCampaign({
+        args: [
+          // items have to be in the order they were the contract inside createCampaign()
+          address, // owner of the campaign
+          form.title, // title
+          form.description, // description
+          form.target,
+          new Date(form.deadline).getTime(),
+          form.image,
+        ],
+      });
 
       console.log("Contract call success!", data);
     } catch (error) {
