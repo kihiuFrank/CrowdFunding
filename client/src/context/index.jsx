@@ -13,7 +13,7 @@ const StateContext = createContext();
 export const StateContextProvider = ({ children }) => {
   const { contract } = useContract(
     // smart contract address
-    "0xC6496fC44B1494567bf16860B8b21a78e20c2f64"
+    "0x12aea70284f6274e7fdcd27366f12D4B84B805Ae"
     //"marketplace"
   );
 
@@ -75,7 +75,7 @@ export const StateContextProvider = ({ children }) => {
   };
 
   const donate = async (pId, amount) => {
-    const data = await contract.call("donateTocampaign", [pId], {
+    const data = await contract.call("donateToCampaign", [pId], {
       value: ethers.utils.parseEther(amount),
     });
 
