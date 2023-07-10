@@ -1,5 +1,7 @@
 # Blockchain-based crowdfunding platform
 
+![Project Preview](./client/src/assets/ProjectPreview.png)
+
 We will be using Using **Thirdweb** and **Hardhat** to create and deploy a dApp on Sepolia testnet. Thirdweb is a tool for creating, deploying, and managing dApps on the Ethereum blockchain and hardhat is a development environment for Ethereum smart contract development.
 
 ## System architecture
