@@ -4,10 +4,9 @@ import { ethers } from "ethers";
 
 // local imports
 import { useStateContext } from "../context";
-import { CustomButton } from "../components";
+import { CustomButton, CountBox, Loader } from "../components";
 import { calculateBarPercentage, daysLeft } from "../utils";
 import { thirdweb } from "../assets";
-import { CountBox } from "../components";
 
 const CampaignDetails = () => {
   const { state } = useLocation();
@@ -41,7 +40,7 @@ const CampaignDetails = () => {
 
   return (
     <div>
-      {isLoading && "Loading..."}
+      {isLoading && <Loader />}
       <div className="w-full flex md:flex-row flex-col mt-10 gap-[30px]">
         <div className="flex-1 flex-col">
           <img
