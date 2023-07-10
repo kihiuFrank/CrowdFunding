@@ -8,6 +8,7 @@ import { ThirdwebProvider } from "@thirdweb-dev/react";
 import { StateContextProvider } from "./context";
 import App from "./App";
 import "./index.css";
+import { Footer } from "./components";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
@@ -16,6 +17,7 @@ root.render(
     <Router>
       <StateContextProvider>
         <App />
+        <Footer />
       </StateContextProvider>
     </Router>
   </ThirdwebProvider>
