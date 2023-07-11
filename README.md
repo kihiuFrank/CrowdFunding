@@ -24,3 +24,11 @@ First, in file `web3/.env`:
 ## How to use?
 
 To use this dApp, use must have an extension called `Metamask`, this is web browser extension, you can install it on Firefox, Chrome, Opera, etc.
+
+## Additional Functionality
+
+- Delete a campaign
+- Updating campaigns
+- Adding a platform fee
+- Cannot donate 0 or less
+- Cannot donate after deadline
