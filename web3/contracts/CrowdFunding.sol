@@ -1,6 +1,9 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
 
+// Errors
+error CrowdFunding__CampaignDoesNotExist();
+
 contract CrowdFunding {
     struct Campaign {
         address owner;
@@ -14,10 +17,26 @@ contract CrowdFunding {
         uint256[] donations;
     }
 
+    event Action(
+        uint256 id,
+        string actionType,
+        address indexed executor,
+        uint256 timestamp
+    );
+
+    address public manager;
+
     mapping(uint256 => Campaign) public campaigns;
     uint256 public numberOfCampaigns;
 
-    constructor() {}
+    constructor() {
+        manager == msg.sender;
+    }
+
+    modifier onlyManager() {
+        require(msg.sender == manager, "not owner");
+        _;
+    }
 
     function createCampaign(
         address _owner,
@@ -60,6 +79,25 @@ contract CrowdFunding {
         if (sent) {
             campaign.amountCollected = campaign.amountCollected + amount;
         }
+    }
+
+    function deleteCampaign(uint256 _id) public onlyManager returns (bool) {
+        // ensure only the owner can call the function
+        if (campaigns[_id].owner == address(0)) {
+            revert CrowdFunding__CampaignDoesNotExist();
+        }
+
+        // refund the donators if any
+        if (campaigns[_id].amountCollected > 0) {
+            _refundDonators(_id);
+        }
+
+        delete campaigns[_id];
+
+        emit Action(_id, "Campaign Deleted", msg.sender, block.timestamp);
+
+        numberOfCampaigns = numberOfCampaigns - 1;
+        return (true);
     }
 
     function getDonators(
