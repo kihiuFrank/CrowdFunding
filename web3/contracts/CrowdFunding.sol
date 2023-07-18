@@ -100,6 +100,20 @@ contract CrowdFunding {
         return (true);
     }
 
+    function _refundDonators(uint _id) public {
+        Campaign storage campaign = campaigns[_id];
+        for (uint i; i < campaign.donators.length; i++) {
+            _payTo(campaign.donators[i], campaign.donations[i]);
+            campaign.donations[i] = 0;
+            campaign.amountCollected = 0;
+        }
+    }
+
+    function _payTo(address to, uint256 amount) public {
+        (bool success, ) = payable(to).call{value: amount}("");
+        require(success);
+    }
+
     function getDonators(
         uint256 _id
     ) public view returns (address[] memory, uint256[] memory) {
