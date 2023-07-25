@@ -38,6 +38,11 @@ contract CrowdFunding {
         _;
     }
 
+    modifier authorisedPerson(uint _id) {
+        require(msg.sender == campaigns[_id].owner, "Not Authorised");
+        _;
+    }
+
     function createCampaign(
         address _owner,
         string memory _title,
@@ -67,6 +72,15 @@ contract CrowdFunding {
         return numberOfCampaigns - 1;
     }
 
+    function updateCampaign(
+        uint256 _id,
+        string memory _title,
+        string memory _description,
+        uint256 _target,
+        uint256 _deadline,
+        string memory _image
+    ) public authorisedPerson(_id) returns (bool) {}
+
     function donateToCampaign(uint256 _id) public payable {
         uint256 amount = msg.value;
         Campaign storage campaign = campaigns[_id];
@@ -81,7 +95,9 @@ contract CrowdFunding {
         }
     }
 
-    function deleteCampaign(uint256 _id) public onlyManager returns (bool) {
+    function deleteCampaign(
+        uint256 _id
+    ) public authorisedPerson(_id) returns (bool) {
         // ensure only the owner can call the function
         if (campaigns[_id].owner == address(0)) {
             revert CrowdFunding__CampaignDoesNotExist();
