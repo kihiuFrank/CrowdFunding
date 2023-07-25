@@ -3,6 +3,8 @@ pragma solidity ^0.8.9;
 
 // Errors
 error CrowdFunding__CampaignDoesNotExist();
+error InputsCantBeNull();
+error DeadlineShouldBeInFuture();
 
 contract CrowdFunding {
     struct Campaign {
@@ -79,7 +81,36 @@ contract CrowdFunding {
         uint256 _target,
         uint256 _deadline,
         string memory _image
-    ) public authorisedPerson(_id) returns (bool) {}
+    ) public authorisedPerson(_id) returns (bool) {
+        Campaign storage campaign = campaigns[_id];
+
+        // make sure the inputs can't be null
+        if (
+            (bytes(_title).length <= 0 &&
+                bytes(_description).length <= 0 &&
+                _target <= 0 &&
+                _deadline <= 0 &&
+                bytes(_image).length <= 0)
+        ) {
+            revert InputsCantBeNull();
+        }
+
+        if (block.timestamp > _deadline) {
+            revert DeadlineShouldBeInFuture();
+        }
+
+        require(campaign.owner > address(0), "No campaign exist with this ID");
+
+        campaign.title = _title;
+        campaign.description = _description;
+        campaign.target = _target;
+        campaign.deadline = _deadline;
+        campaign.image = _image;
+
+        emit Action(_id, "Campaign updated", msg.sender, block.timestamp);
+
+        return true;
+    }
 
     function donateToCampaign(uint256 _id) public payable {
         uint256 amount = msg.value;
