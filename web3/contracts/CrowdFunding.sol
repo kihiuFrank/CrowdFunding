@@ -168,6 +168,21 @@ contract CrowdFunding {
     }
 
     // withdraw donations
+    function withdrawDonations(
+        uint256 _id
+    ) public authorisedPerson(_id) returns (bool) {
+        (uint256 raisedAmount, uint256 fee) = calculatePlatformFee(_id);
+
+        //send to campaign owner
+        _payTo(campaigns[_id].owner, (raisedAmount - fee));
+
+        //send to platform
+        _payTo(manager, fee);
+
+        emit Action(_id, "Funds Withdrawn", msg.sender, block.timestamp);
+
+        return true;
+    }
 
     function _payTo(address to, uint256 amount) public {
         (bool success, ) = payable(to).call{value: amount}("");
