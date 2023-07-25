@@ -27,12 +27,14 @@ contract CrowdFunding {
     );
 
     address public manager;
+    uint256 public platformFee;
 
     mapping(uint256 => Campaign) public campaigns;
     uint256 public numberOfCampaigns;
 
-    constructor() {
+    constructor(uint256 _platformFee) {
         manager == msg.sender;
+        platformFee = _platformFee;
     }
 
     modifier onlyManager() {
@@ -155,6 +157,15 @@ contract CrowdFunding {
             campaign.amountCollected = 0;
         }
     }
+
+    // platform fee
+    function calculatePlatformFee(uint256 _id) public view returns (uint) {
+        uint raisedAmount = campaigns[_id].amountCollected;
+        uint fee = (raisedAmount * platformFee) / 100;
+        return (fee);
+    }
+
+    // withdraw donations
 
     function _payTo(address to, uint256 amount) public {
         (bool success, ) = payable(to).call{value: amount}("");
