@@ -5,6 +5,7 @@ pragma solidity ^0.8.9;
 error CrowdFunding__CampaignDoesNotExist();
 error InputsCantBeNull();
 error DeadlineShouldBeInFuture();
+error AmountDonatedMustBeGreaterThanZero();
 
 contract CrowdFunding {
     struct Campaign {
@@ -117,6 +118,11 @@ contract CrowdFunding {
     function donateToCampaign(uint256 _id) public payable {
         uint256 amount = msg.value;
         Campaign storage campaign = campaigns[_id];
+
+        // amount donated shouldn't be zero or less
+        if (amount <= 0) {
+            revert AmountDonatedMustBeGreaterThanZero();
+        }
 
         campaign.donators.push(msg.sender);
         campaign.donations.push(amount);
