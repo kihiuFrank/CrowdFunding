@@ -159,10 +159,12 @@ contract CrowdFunding {
     }
 
     // platform fee
-    function calculatePlatformFee(uint256 _id) public view returns (uint) {
+    function calculatePlatformFee(
+        uint256 _id
+    ) public view returns (uint, uint) {
         uint raisedAmount = campaigns[_id].amountCollected;
         uint fee = (raisedAmount * platformFee) / 100;
-        return (fee);
+        return (raisedAmount, fee);
     }
 
     // withdraw donations
