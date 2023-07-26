@@ -5,7 +5,7 @@ pragma solidity ^0.8.9;
 error CrowdFunding__CampaignDoesNotExist();
 error InputsCantBeNull();
 error DeadlineShouldBeInFuture();
-error AmountDonatedMustBeGreaterThanZero();
+error AmountDonatedMustBeGreaterThanZero(uint minAmount, uint donatedAmount);
 error DeadlineReached(uint campaignDeadline, uint timeRequested);
 
 contract CrowdFunding {
@@ -121,8 +121,11 @@ contract CrowdFunding {
         Campaign storage campaign = campaigns[_id];
 
         // amount donated shouldn't be zero or less
-        if (amount <= 0) {
-            revert AmountDonatedMustBeGreaterThanZero();
+        if (amount <= 0 wei) {
+            revert AmountDonatedMustBeGreaterThanZero({
+                minAmount: 1 wei,
+                donatedAmount: amount
+            });
         }
 
         // cannot donate after deadline
