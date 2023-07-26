@@ -6,6 +6,7 @@ error CrowdFunding__CampaignDoesNotExist();
 error InputsCantBeNull();
 error DeadlineShouldBeInFuture();
 error AmountDonatedMustBeGreaterThanZero();
+error DeadlineReached(uint campaignDeadline, uint timeRequested);
 
 contract CrowdFunding {
     struct Campaign {
@@ -122,6 +123,14 @@ contract CrowdFunding {
         // amount donated shouldn't be zero or less
         if (amount <= 0) {
             revert AmountDonatedMustBeGreaterThanZero();
+        }
+
+        // cannot donate after deadline
+        if (campaign.deadline < block.timestamp) {
+            revert DeadlineReached({
+                campaignDeadline: campaigns[_id].deadline,
+                timeRequested: block.timestamp
+            });
         }
 
         campaign.donators.push(msg.sender);
