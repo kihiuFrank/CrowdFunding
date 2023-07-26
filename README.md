@@ -35,3 +35,8 @@ To use this dApp, use must have an extension called `Metamask`, this is web brow
 - Adding a platform fee
 - Cannot donate 0 or less
 - Cannot donate after deadline
+
+Front End.
+
+- Create Campaign Categories.
+- Implement the functionalities above.

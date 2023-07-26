@@ -214,7 +214,8 @@ contract CrowdFunding {
     }
 
     function getCampaigns() public view returns (Campaign[] memory) {
-        Campaign[] memory allCampaigns = new Campaign[](numberOfCampaigns); // creates an empty array of as many structs as there are campaigns
+        // create an empty array of as many structs as there are campaigns
+        Campaign[] memory allCampaigns = new Campaign[](numberOfCampaigns);
 
         // now we loop through the campaigns and populate the variable
         for (uint i = 0; i < numberOfCampaigns; i++) {
