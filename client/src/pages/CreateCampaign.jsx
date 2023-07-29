@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 
 import { useStateContext } from "../context";
 import { money } from "../assets";
-import { CustomButton, FormField, Loader } from "../components";
+import { CustomButton, FormField, Loader, DropDown } from "../components";
 import { checkIfImage } from "../utils";
 
 const CreateCampaign = () => {
@@ -12,6 +12,7 @@ const CreateCampaign = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { createCampaign } = useStateContext();
   const [form, setForm] = useState({
+    category: "",
     name: "",
     title: "",
     description: "",
@@ -74,6 +75,13 @@ const CreateCampaign = () => {
             inputType="text"
             value={form.title}
             handleChange={(e) => handleFormFieldChange("title", e)}
+          />
+
+          <DropDown
+            labelName="Select Category *"
+            placeholder="Select..."
+            value={form.category}
+            handleChange={(e) => handleFormFieldChange("category", e)}
           />
         </div>
 

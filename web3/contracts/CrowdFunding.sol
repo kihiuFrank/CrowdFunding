@@ -59,7 +59,7 @@ contract CrowdFunding {
     ) public returns (uint256) {
         Campaign storage campaign = campaigns[numberOfCampaigns];
 
-        // check if everything is ok
+        // check that the dealine is in the future
         require(
             campaign.deadline < block.timestamp,
             "deadline should be a date in the future"
