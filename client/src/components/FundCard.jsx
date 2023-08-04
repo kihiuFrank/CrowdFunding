@@ -34,7 +34,7 @@ const FundCard = ({
             alt="tag"
             className="w-[17px] h-[17px] object-contain"
           />
-          <p className="ml-[12px] mt-[2px] font-epilogue font-medium text-[#808191]">
+          <p className="ml-[12px] mt-[2px] h-[17px] font-epilogue font-medium text-[#808191]">
             {category}
           </p>
         </div>
@@ -77,11 +77,19 @@ const FundCard = ({
             />
           </div>
 
-          <p className="flex-1 font-epilogue font-normal text-[12px] text-[#808191] truncate">
+          <div className="flex-1 font-epilogue font-normal text-[12px] text-[#808191] truncate">
             {" "}
-            by <span className="text-[#b2b3bd]">{name}</span>
-            <span className="mt-[3px] text-[#b2b3bd]">{owner}</span>
-          </p>
+            by{" "}
+            <span className="font-epilogue leading-[22px] text-[#b2b3bd]">
+              {name}
+            </span>
+            s
+            <div className="flex flex-col">
+              <span className=" font-epilogue font-normal text-[12px] text-[#b2b3bd] leading-[18px] sm:max-w-[120px] truncate ">
+                {owner}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
