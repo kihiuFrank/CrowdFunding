@@ -31,7 +31,9 @@ export const StateContextProvider = ({ children }) => {
         args: [
           // items have to be in the order they were the contract inside createCampaign()
           address, // owner of the campaign
+          form.name, // name
           form.title, // title
+          form.category, // campaign category
           form.description, // description
           form.target,
           new Date(form.deadline).getTime(),

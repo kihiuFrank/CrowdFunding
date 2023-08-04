@@ -14,7 +14,7 @@ const CreateCampaign = () => {
   const [form, setForm] = useState({
     name: "",
     title: "",
-    category: "",
+    category: "Fundraiser",
     description: "",
     target: "",
     deadline: "",
@@ -37,7 +37,24 @@ const CreateCampaign = () => {
   const handleSubmit = async (e) => {
     e.preventDefault(); // prevent page from reloading by default after submitting the form
 
-    console.log(form);
+    //console.log(form);
+    checkIfImage(form.image, async (exists) => {
+      if (exists) {
+        setIsLoading(true);
+        console.log("form", form);
+
+        await createCampaign({
+          ...form,
+          target: ethers.utils.parseUnits(form.target, 18),
+        });
+
+        setIsLoading(false);
+        navigate("/");
+      } else {
+        alert("Provide valid image URL");
+        setForm({ ...form, image: "" });
+      }
+    });
   };
 
   return (
