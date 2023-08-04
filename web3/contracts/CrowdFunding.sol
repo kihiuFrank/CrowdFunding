@@ -11,6 +11,8 @@ error DeadlineReached(uint campaignDeadline, uint timeRequested);
 contract CrowdFunding {
     struct Campaign {
         address owner;
+        string name;
+        string category;
         string title;
         string description;
         uint256 target;
@@ -51,7 +53,9 @@ contract CrowdFunding {
 
     function createCampaign(
         address _owner,
+        string memory _name,
         string memory _title,
+        string memory _category,
         string memory _description,
         uint256 _target,
         uint256 _deadline,
@@ -66,7 +70,9 @@ contract CrowdFunding {
         );
 
         campaign.owner = _owner;
+        campaign.name = _name;
         campaign.title = _title;
+        campaign.category = _category;
         campaign.description = _description;
         campaign.target = _target;
         campaign.deadline = _deadline;
@@ -80,7 +86,9 @@ contract CrowdFunding {
 
     function updateCampaign(
         uint256 _id,
+        string memory _name,
         string memory _title,
+        string memory _category,
         string memory _description,
         uint256 _target,
         uint256 _deadline,
@@ -105,7 +113,9 @@ contract CrowdFunding {
 
         require(campaign.owner > address(0), "No campaign exist with this ID");
 
+        campaign.name = _name;
         campaign.title = _title;
+        campaign.category = _category;
         campaign.description = _description;
         campaign.target = _target;
         campaign.deadline = _deadline;

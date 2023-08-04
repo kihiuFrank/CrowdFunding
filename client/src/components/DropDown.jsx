@@ -23,7 +23,13 @@ const DropDown = ({
         <option value="Crisis Relief">Crisis Relief</option>
         <option value="Education">Education</option>
         <option value="Emergency">Emergency</option>
+        <option value="Sports">Sports</option>
         <option value="Fundraiser">Fundraiser</option>
+        <option value="Environment">Environment</option>
+        <option value="Family">Family</option>
+        <option value="Competition">Competition</option>
+        <option value="Memorial">Memorial</option>
+        <option value="Research">Research</option>
       </select>
     </label>
   );

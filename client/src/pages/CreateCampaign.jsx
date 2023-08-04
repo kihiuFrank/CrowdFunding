@@ -12,14 +12,15 @@ const CreateCampaign = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { createCampaign } = useStateContext();
   const [form, setForm] = useState({
-    category: "",
     name: "",
     title: "",
+    category: "",
     description: "",
     target: "",
     deadline: "",
     image: "",
   });
+  // const [selectedCategory, setSelectedCategory] = useState({ category: "" });
 
   // function takes an event (e) and calls setForm()
   // we spread out the entire form and then change only the special type of the field that changed
@@ -29,23 +30,14 @@ const CreateCampaign = () => {
     setForm({ ...form, [fieldName]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  // const handleDropDownChange = (fieldName, e) => {
+  //   setSelectedCategory({ ...selectedCategory, [fieldName]: e.target.value });
+  // };
 
-    checkIfImage(form.image, async (exists) => {
-      if (exists) {
-        setIsLoading(true);
-        await createCampaign({
-          ...form,
-          target: ethers.utils.parseUnits(form.target, 18),
-        });
-        setIsLoading(false);
-        navigate("/");
-      } else {
-        alert("Provide valid image URL");
-        setForm({ ...form, image: "" });
-      }
-    });
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // prevent page from reloading by default after submitting the form
+
+    console.log(form);
   };
 
   return (
@@ -77,9 +69,10 @@ const CreateCampaign = () => {
             handleChange={(e) => handleFormFieldChange("title", e)}
           />
 
-          <DropDown
+          <FormField
             labelName="Select Category *"
             placeholder="Select..."
+            isCategory
             value={form.category}
             handleChange={(e) => handleFormFieldChange("category", e)}
           />

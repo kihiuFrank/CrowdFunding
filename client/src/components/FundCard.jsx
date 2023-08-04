@@ -5,7 +5,9 @@ import { daysLeft } from "../utils";
 
 const FundCard = ({
   owner,
+  name,
   title,
+  category,
   description,
   target,
   deadline,
@@ -33,7 +35,7 @@ const FundCard = ({
             className="w-[17px] h-[17px] object-contain"
           />
           <p className="ml-[12px] mt-[2px] font-epilogue font-medium text-[#808191]">
-            Category
+            {category}
           </p>
         </div>
 
@@ -77,7 +79,8 @@ const FundCard = ({
 
           <p className="flex-1 font-epilogue font-normal text-[12px] text-[#808191] truncate">
             {" "}
-            by <span className="text-[#b2b3bd]">{owner}</span>
+            by <span className="text-[#b2b3bd]">{name}</span>
+            <span className="mt-[3px] text-[#b2b3bd]">{owner}</span>
           </p>
         </div>
       </div>

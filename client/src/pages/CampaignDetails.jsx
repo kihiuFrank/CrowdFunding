@@ -77,7 +77,13 @@ const CampaignDetails = () => {
         <div className="flex-[2] flex flex-col gap-[40px]">
           <div>
             <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase">
-              Creator
+              {state.title}
+            </h4>
+          </div>
+
+          <div>
+            <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase">
+              Organizer
             </h4>
 
             <div className="mt-[20px] flex flex-row items-center flex-wrap gap-[14px]">
@@ -88,12 +94,13 @@ const CampaignDetails = () => {
                   className="w-[60%] h-[60%] object-contain"
                 />
               </div>
+
               <div>
                 <h4 className="font-epilogue font-semibold text-[14px] text-white break-all">
                   {state.owner}
                 </h4>
                 <p className="mt-[4px] font-epilogue font-normal text-[12px] text-[#808191]">
-                  10 Campaigns
+                  {state.name} is organizing this fundraiser.
                 </p>
               </div>
             </div>
