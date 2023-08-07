@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 
 // local imports
 import { useStateContext } from "../context";
-import { CustomButton, CountBox, Loader } from "../components";
+import { CustomButton, CountBox, Loader, Expandable } from "../components";
 import { calculateBarPercentage, daysLeft } from "../utils";
 import { thirdweb } from "../assets";
 
@@ -79,6 +79,10 @@ const CampaignDetails = () => {
             <h4 className="font-epilogue font-semibold text-[18px] text-white uppercase">
               {state.title}
             </h4>
+
+            <p className="mt-[3px] font-epilogue font-normal text-[16px] leading-[18px] text-[#808191]">
+              {state.category}
+            </p>
           </div>
 
           <div>
@@ -97,10 +101,10 @@ const CampaignDetails = () => {
 
               <div>
                 <h4 className="font-epilogue font-semibold text-[14px] text-white break-all">
-                  {state.owner}
-                </h4>
-                <p className="mt-[4px] font-epilogue font-normal text-[12px] text-[#808191]">
                   {state.name} is organizing this fundraiser.
+                </h4>
+                <p className="mt-[4px] font-epilogue font-normal text-[13px] text-[#808191]">
+                  {state.owner}
                 </p>
               </div>
             </div>
@@ -111,10 +115,8 @@ const CampaignDetails = () => {
               Story
             </h4>
 
-            <div className="mt-[20px]">
-              <p className=" font-epilogue font-normal text-[16px] text-[#808191] leading-[26px] text-justify">
-                {state.description}
-              </p>
+            <div className="mt-[20px] text-[#808191]">
+              <Expandable>{state.description}</Expandable>
             </div>
           </div>
 

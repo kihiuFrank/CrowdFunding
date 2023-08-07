@@ -41,7 +41,7 @@ const CreateCampaign = () => {
     checkIfImage(form.image, async (exists) => {
       if (exists) {
         setIsLoading(true);
-        console.log("form", form);
+        // console.log("form", form);
 
         await createCampaign({
           ...form,
