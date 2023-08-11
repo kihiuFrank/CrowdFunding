@@ -159,7 +159,6 @@ contract CrowdFunding {
     function deleteCampaign(
         uint256 _id
     ) public authorisedPerson(_id) returns (bool) {
-        // ensure only the owner can call the function
         if (campaigns[_id].owner == address(0)) {
             revert CrowdFunding__CampaignDoesNotExist();
         }
