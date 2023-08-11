@@ -13,7 +13,10 @@ import { Footer } from "./components";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
-  <ThirdwebProvider activeChain={Sepolia}>
+  <ThirdwebProvider
+    activeChain={Sepolia}
+    clientId="2eeae8e874f0c66c7fa1ead710d316ee"
+  >
     <Router>
       <StateContextProvider>
         <App />

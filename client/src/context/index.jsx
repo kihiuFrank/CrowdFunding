@@ -13,7 +13,7 @@ const StateContext = createContext();
 export const StateContextProvider = ({ children }) => {
   const { contract } = useContract(
     // smart contract address
-    "0x87FAE0e9A0eE7CB9F767cEC97ECD4dDC3E81bF9B"
+    "0xb6B722F0a98f4Eed187b2018Ca872c097f390f1d"
     //"marketplace"
   );
 
