@@ -38,5 +38,5 @@ To use this dApp, use must have an extension called `Metamask`, this is web brow
 
 Front End.
 
-- Create Campaign Categories.
+- Create Campaign Categories. ✅
 - Implement the functionalities above.
