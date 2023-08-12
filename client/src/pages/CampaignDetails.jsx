@@ -41,6 +41,26 @@ const CampaignDetails = () => {
   return (
     <div>
       {isLoading && <Loader />}
+      {address == state.owner ? (
+        <div className="flex flex-wrap gap-[40px] text-white">
+          <CustomButton
+            btnType="button"
+            title="Update Campaign"
+            styles="w-[40%] bg-[#8c6dfd]"
+            handleClick={handleDonate}
+          />
+
+          <CustomButton
+            btnType="button"
+            title="Delete Campaign"
+            styles=" w-[40%] bg-[#8c6dfd]"
+            handleClick={handleDonate}
+          />
+        </div>
+      ) : (
+        <div></div>
+      )}
+
       <div className="w-full flex md:flex-row flex-col mt-10 gap-[30px]">
         <div className="flex-1 flex-col">
           <img
