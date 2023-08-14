@@ -11,7 +11,8 @@ import { thirdweb } from "../assets";
 const CampaignDetails = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
-  const { donate, getDonations, contract, address } = useStateContext();
+  const { donate, getDonations, contract, address, deleteCampaign } =
+    useStateContext();
 
   const [isLoading, setIsLoading] = useState(false);
   const [amount, setAmount] = useState("");
@@ -38,28 +39,26 @@ const CampaignDetails = () => {
     setIsLoading(false);
   };
 
+  const handleDelete = async () => {
+    setIsLoading(true);
+
+    await deleteCampaign(state.pId);
+
+    navigate("/");
+    setIsLoading(false);
+  };
+
+  const handleUpdate = async () => {
+    setIsLoading(true);
+
+    await contract.updateCampaign(state.pId);
+    navigate("/");
+    setIsLoading(false);
+  };
+
   return (
     <div>
       {isLoading && <Loader />}
-      {address == state.owner ? (
-        <div className="flex flex-wrap gap-[40px] text-white">
-          <CustomButton
-            btnType="button"
-            title="Update Campaign"
-            styles="w-[40%] bg-[#8c6dfd]"
-            handleClick={handleDonate}
-          />
-
-          <CustomButton
-            btnType="button"
-            title="Delete Campaign"
-            styles=" w-[40%] bg-[#8c6dfd]"
-            handleClick={handleDonate}
-          />
-        </div>
-      ) : (
-        <div></div>
-      )}
 
       <div className="w-full flex md:flex-row flex-col mt-10 gap-[30px]">
         <div className="flex-1 flex-col">
@@ -209,6 +208,28 @@ const CampaignDetails = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      <div className="mt-[60px]   mb-[30px]">
+        {address == state.owner ? (
+          <div className="flex flex-wrap gap-[40px]">
+            <CustomButton
+              btnType="button"
+              title="Update Campaign"
+              styles="w-[40%] bg-[#8c6dfd]"
+              handleClick={handleUpdate}
+            />
+
+            <CustomButton
+              btnType="button"
+              title="Delete Campaign"
+              styles=" w-[40%] bg-[#8c6dfd]"
+              handleClick={handleDelete}
+            />
+          </div>
+        ) : (
+          <div></div>
+        )}
       </div>
     </div>
   );

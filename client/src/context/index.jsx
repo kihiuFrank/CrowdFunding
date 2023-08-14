@@ -47,6 +47,32 @@ export const StateContextProvider = ({ children }) => {
     }
   };
 
+  const updateCampaign = async (form) => {
+    try {
+      const data = await createCampaign({
+        args: [
+          // items have to be in the order they were the contract inside createCampaign()
+          address, // owner of the campaign
+          form.name, // name
+          form.title, // title
+          form.category, // campaign category
+          form.description, // description
+          form.target,
+          new Date(form.deadline).getTime(),
+          form.image,
+        ],
+      });
+
+      console.log("Contract call success!", data);
+    } catch (error) {
+      console.log("Contract call failed!", error);
+    }
+  };
+
+  const deleteCampaign = async (pId) => {
+    await contract.call("deleteCampaign", [pId]);
+  };
+
   const getCampaigns = async () => {
     const campaigns = await contract.call("getCampaigns");
 
@@ -113,6 +139,7 @@ export const StateContextProvider = ({ children }) => {
         getUserCampaigns,
         donate,
         getDonations,
+        deleteCampaign,
       }}
     >
       {children}
