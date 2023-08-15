@@ -11,12 +11,19 @@ import { thirdweb } from "../assets";
 const CampaignDetails = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
-  const { donate, getDonations, contract, address, deleteCampaign } =
-    useStateContext();
+  const {
+    donate,
+    getDonations,
+    contract,
+    address,
+    deleteCampaign,
+    getSingleCampaign,
+  } = useStateContext();
 
   const [isLoading, setIsLoading] = useState(false);
   const [amount, setAmount] = useState("");
   const [donators, setDonators] = useState([]);
+  const [singleCampaign, setSingleCampaign] = useState([]);
 
   const remainingDays = daysLeft(state.deadline);
 
@@ -29,6 +36,21 @@ const CampaignDetails = () => {
     if (contract) fetchDonators();
   }),
     [contract, address];
+
+  const fetchSingleCampaign = async () => {
+    const data = await getSingleCampaign(state.pId);
+
+    setSingleCampaign(data);
+  };
+
+  useEffect(() => {
+    if (contract) fetchSingleCampaign();
+  }),
+    [contract, address];
+
+  const handleUpdate = () => {
+    navigate(`/update-campaign/${state.pId}`, { state: { singleCampaign } });
+  };
 
   const handleDonate = async () => {
     setIsLoading(true);
@@ -44,14 +66,6 @@ const CampaignDetails = () => {
 
     await deleteCampaign(state.pId);
 
-    navigate("/");
-    setIsLoading(false);
-  };
-
-  const handleUpdate = async () => {
-    setIsLoading(true);
-
-    await contract.updateCampaign(state.pId);
     navigate("/");
     setIsLoading(false);
   };
@@ -215,6 +229,7 @@ const CampaignDetails = () => {
           <div className="flex flex-wrap gap-[40px]">
             <CustomButton
               btnType="button"
+              id={state.pId}
               title="Update Campaign"
               styles="w-[40%] bg-[#8c6dfd]"
               handleClick={handleUpdate}
@@ -223,7 +238,7 @@ const CampaignDetails = () => {
             <CustomButton
               btnType="button"
               title="Delete Campaign"
-              styles=" w-[40%] bg-[#8c6dfd]"
+              styles=" w-[40%] bg-[#FF0000]"
               handleClick={handleDelete}
             />
           </div>
