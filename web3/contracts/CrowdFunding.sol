@@ -34,11 +34,13 @@ contract CrowdFunding {
     uint256 public platformFee;
 
     mapping(uint256 => Campaign) public campaigns;
+    mapping(address => uint) balances;
     uint256 public numberOfCampaigns;
 
-    constructor(uint256 _platformFee) {
+    constructor(uint256 _platformFee) payable {
         manager == msg.sender;
         platformFee = _platformFee;
+        balances[msg.sender] = msg.value;
     }
 
     modifier onlyManager() {
@@ -199,6 +201,8 @@ contract CrowdFunding {
         uint256 _id
     ) public authorisedPerson(_id) returns (bool) {
         (uint256 raisedAmount, uint256 fee) = calculatePlatformFee(_id);
+
+        balances[msg.sender] = 0; // updating adress balance before atually withdrawing to prevent re-entracy attacks.
 
         //send to campaign owner
         _payTo(campaigns[_id].owner, (raisedAmount - fee));
