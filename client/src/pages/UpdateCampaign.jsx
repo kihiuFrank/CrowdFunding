@@ -15,7 +15,7 @@ const UpdateCampaign = () => {
   const { updateCampaign } = useStateContext();
   const { state } = useLocation();
 
-  console.log("State", state);
+  //console.log("State", state);
 
   const [form, setForm] = useState({
     id: state.id,
@@ -28,7 +28,7 @@ const UpdateCampaign = () => {
     image: state.image,
   });
 
-  console.log("Form", form);
+  //console.log("Form", form);
 
   const handleFormFieldChange = (fieldName, e) => {
     setForm({ ...form, [fieldName]: e.target.value });
