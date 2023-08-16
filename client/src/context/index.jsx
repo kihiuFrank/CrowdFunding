@@ -8,6 +8,9 @@ import {
 } from "@thirdweb-dev/react";
 import { ethers } from "ethers";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
@@ -41,36 +44,45 @@ export const StateContextProvider = ({ children }) => {
         ],
       });
 
-      console.log("Contract call success!", data);
+      toast.success("Campaign created successfully.");
+      console.log("contract call success", data);
     } catch (error) {
-      console.log("Contract call failed!", error);
+      toast.error("Error while creating Campaign, please try again");
+      console.log("contract call failure", error);
     }
   };
 
   const updateCampaign = async (form) => {
     try {
-      const data = await createCampaign({
-        args: [
-          // items have to be in the order they were the contract inside createCampaign()
-          address, // owner of the campaign
-          form.name, // name
-          form.title, // title
-          form.category, // campaign category
-          form.description, // description
-          form.target,
-          new Date(form.deadline).getTime(),
-          form.image,
-        ],
-      });
-
-      console.log("Contract call success!", data);
+      const data = await contract.call("updateCampaign", [
+        form.id, // campaign id
+        form.name, // campaign name
+        form.title, // title
+        form.category, // category
+        form.description, // description
+        form.target,
+        new Date(form.deadline).getTime(), // deadline,
+        form.image,
+      ]);
+      toast.success("Campaign updated successfully.");
+      console.log("contract call success", data);
     } catch (error) {
-      console.log("Contract call failed!", error);
+      toast.error("Error while updating Campaign, please try again");
+      console.log("contract call failure", error);
     }
   };
 
   const deleteCampaign = async (pId) => {
-    await contract.call("deleteCampaign", [pId]);
+    try {
+      const data = await contract.call("deleteCampaign", [pId]);
+
+      toast.success("Campaign deleted successfully.");
+      console.log("contract call success", data);
+      return data;
+    } catch (error) {
+      toast.error("Error while deleting Campaign, please try again");
+      console.log("contract call failure", error);
+    }
   };
 
   const getCampaigns = async () => {
@@ -115,11 +127,17 @@ export const StateContextProvider = ({ children }) => {
   };
 
   const donate = async (pId, amount) => {
-    const data = await contract.call("donateToCampaign", [pId], {
-      value: ethers.utils.parseEther(amount),
-    });
-
-    return data;
+    try {
+      const data = await contract.call("donateToCampaign", [pId], {
+        value: ethers.utils.parseEther(amount),
+      });
+      toast.success(
+        "Campaign funded successfully. Thanks for your collaboration"
+      );
+      return data;
+    } catch (err) {
+      console.log("Error occurred while making donation", err);
+    }
   };
 
   const getDonations = async (pId) => {
@@ -154,6 +172,7 @@ export const StateContextProvider = ({ children }) => {
         getSingleCampaign,
       }}
     >
+      <ToastContainer />
       {children}
     </StateContext.Provider>
   );
