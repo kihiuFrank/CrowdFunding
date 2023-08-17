@@ -11,19 +11,12 @@ import { thirdweb } from "../assets";
 const CampaignDetails = () => {
   const { state } = useLocation();
   const navigate = useNavigate();
-  const {
-    donate,
-    getDonations,
-    contract,
-    address,
-    deleteCampaign,
-    getSingleCampaign,
-  } = useStateContext();
+  const { donate, getDonations, contract, address, deleteCampaign } =
+    useStateContext();
 
   const [isLoading, setIsLoading] = useState(false);
   const [amount, setAmount] = useState("");
   const [donators, setDonators] = useState([]);
-  const [singleCampaign, setSingleCampaign] = useState([]);
 
   const remainingDays = daysLeft(state.deadline);
 
@@ -34,17 +27,6 @@ const CampaignDetails = () => {
 
   useEffect(() => {
     if (contract) fetchDonators();
-  }),
-    [contract, address];
-
-  const fetchSingleCampaign = async () => {
-    const data = await getSingleCampaign(state.pId);
-
-    setSingleCampaign(data);
-  };
-
-  useEffect(() => {
-    if (contract) fetchSingleCampaign();
   }),
     [contract, address];
 

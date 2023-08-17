@@ -85,6 +85,31 @@ export const StateContextProvider = ({ children }) => {
     }
   };
 
+  const donate = async (pId, amount) => {
+    try {
+      const data = await contract.call("donateToCampaign", [pId], {
+        value: ethers.utils.parseEther(amount),
+      });
+      toast.success(
+        "Campaign funded successfully. Thanks for your collaboration"
+      );
+      return data;
+    } catch (err) {
+      console.log("Error occurred while making donation", err);
+    }
+  };
+
+  const withdraw = async (pId) => {
+    try {
+      const data = await contract.call("withdrawDonations", [pId]);
+      toast.success("Campaign funds successfully withdrawn.");
+      return data;
+    } catch (err) {
+      toast.error("Error occurred while withdrawing funds.");
+      console.log("Error occurred while withdrawing funds", err);
+    }
+  };
+
   const getCampaigns = async () => {
     const campaigns = await contract.call("getCampaigns");
 
@@ -126,20 +151,6 @@ export const StateContextProvider = ({ children }) => {
     return filteredCampaign;
   };
 
-  const donate = async (pId, amount) => {
-    try {
-      const data = await contract.call("donateToCampaign", [pId], {
-        value: ethers.utils.parseEther(amount),
-      });
-      toast.success(
-        "Campaign funded successfully. Thanks for your collaboration"
-      );
-      return data;
-    } catch (err) {
-      console.log("Error occurred while making donation", err);
-    }
-  };
-
   const getDonations = async (pId) => {
     const donations = await contract.call("getDonators", [pId]);
     const numberOfDonations = donations[0].length;
@@ -166,6 +177,7 @@ export const StateContextProvider = ({ children }) => {
         getCampaigns,
         getUserCampaigns,
         donate,
+        withdraw,
         getDonations,
         deleteCampaign,
         updateCampaign,

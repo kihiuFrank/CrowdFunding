@@ -40,3 +40,5 @@ Front End.
 
 - Create Campaign Categories. ✅
 - Implement the functionalities above.
+
+- Remember to create a get campaign owner balance function
