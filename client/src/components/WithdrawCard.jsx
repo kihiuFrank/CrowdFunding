@@ -66,13 +66,12 @@ const WithdrawCard = ({
           </div>
         </div>
 
-        <div className="flex items-center mt-[20px] gap-[12px]">
+        <div className="flex items-center mt-[20px] gap-[12px] ">
           <CustomButton
             btnType="button"
-            pId
-            title="Withdraw"
+            title="Withdraw from Campaign"
             styles="w-full bg-[#8c6dfd] cursor-pointer"
-            onClick={handleClick}
+            handleClick={handleClick}
           />
         </div>
       </div>

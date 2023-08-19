@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { v4 as uuidv4 } from "uuid";
@@ -6,19 +6,26 @@ import WithdrawCard from "./WithdrawCard";
 import { useStateContext } from "../context";
 import { loader } from "../assets";
 
-const WithdrawFromCampaigns = ({ title, isLoading, campaigns }) => {
+const WithdrawFromCampaigns = ({ title, campaigns }) => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const { withdraw } = useStateContext();
 
-  console.log("campaigns", campaigns);
+  const state = campaigns.find((campaign) => {
+    return campaign;
+  });
+
+  console.log(state);
 
   const handleWithdraw = async () => {
-    isLoading(true);
+    setIsLoading(true);
 
-    await withdraw(pId);
+    console.log("state", state.pId);
+
+    await withdraw(state.pId);
 
     navigate("/");
-    isLoading(false);
+    setIsLoading(false);
   };
 
   return (
@@ -29,7 +36,11 @@ const WithdrawFromCampaigns = ({ title, isLoading, campaigns }) => {
 
       <div className="flex flex-wrap mt-[20px] gap-[26px]">
         {isLoading && (
-          <img alt="loader" className="w-[100px] h-[100px] object-contain" />
+          <img
+            src={loader}
+            alt="loader"
+            className="w-[100px] h-[100px] object-contain"
+          />
         )}
 
         {!isLoading && campaigns.length === 0 && (
@@ -44,7 +55,7 @@ const WithdrawFromCampaigns = ({ title, isLoading, campaigns }) => {
             <WithdrawCard
               key={uuidv4()}
               {...campaign}
-              handleClick={() => handleWithdraw}
+              handleClick={handleWithdraw}
             />
           ))}
       </div>
