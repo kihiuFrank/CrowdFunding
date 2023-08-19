@@ -215,7 +215,7 @@ contract CrowdFunding {
         return true;
     }
 
-    function _payTo(address to, uint256 amount) public {
+    function _payTo(address to, uint256 amount) internal {
         (bool success, ) = payable(to).call{value: amount}("");
         require(success);
     }
