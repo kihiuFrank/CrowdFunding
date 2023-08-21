@@ -16,7 +16,7 @@ const StateContext = createContext();
 export const StateContextProvider = ({ children }) => {
   const { contract } = useContract(
     // smart contract address
-    "0xD26AA5C723fcC978d496AB4aB8517C0921d4670E"
+    "0x9bedd9Fe4Bc7a8868c39d1E38FC231F036526b48"
     //"marketplace"
   );
 
@@ -95,6 +95,7 @@ export const StateContextProvider = ({ children }) => {
       );
       return data;
     } catch (err) {
+      toast("Donation failed");
       console.log("Error occurred while making donation", err);
     }
   };

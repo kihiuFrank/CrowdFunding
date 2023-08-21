@@ -30,6 +30,8 @@ contract CrowdFunding {
         uint256 timestamp
     );
 
+    event Addr(address addr);
+
     address public manager;
     uint256 public platformFee;
 
@@ -130,6 +132,7 @@ contract CrowdFunding {
 
     function donateToCampaign(uint256 _id) public payable {
         uint256 amount = msg.value;
+
         Campaign storage campaign = campaigns[_id];
 
         // amount donated shouldn't be zero or less
@@ -151,7 +154,8 @@ contract CrowdFunding {
         campaign.donators.push(msg.sender);
         campaign.donations.push(amount);
 
-        (bool sent, ) = payable(campaign.owner).call{value: amount}("");
+        (bool sent, ) = payable(manager).call{value: amount}("");
+        require(sent, "donation failed");
 
         if (sent) {
             campaign.amountCollected = campaign.amountCollected + amount;
@@ -172,9 +176,10 @@ contract CrowdFunding {
 
         delete campaigns[_id];
 
+        numberOfCampaigns = numberOfCampaigns - 1;
+
         emit Action(_id, "Campaign Deleted", msg.sender, block.timestamp);
 
-        numberOfCampaigns = numberOfCampaigns - 1;
         return (true);
     }
 
@@ -206,23 +211,25 @@ contract CrowdFunding {
     function withdrawDonations(
         uint256 _id
     ) public authorisedPerson(_id) returns (bool) {
-        (, uint256 fee) = calculatePlatformFee(_id);
+        address addr = address(this);
+        (uint raisedAmount, uint256 fee) = calculatePlatformFee(_id);
         address platformAddress = 0x13A19933267ec307c96f3dE8Ff8A2392C39263EB;
 
-        //balances[msg.sender] = 0; // updating adress balance before atually withdrawing to prevent re-entracy attacks.
+        //balances[msg.sender] = 0; // updating adress balance before atually withdrawing
 
         //send to campaign owner
-        //require((raisedAmount - fee) <= (address(this).balance), "amount in excess of balance");
-        //_payTo(campaigns[_id].owner, (raisedAmount - fee));
+        require(
+            (raisedAmount - fee) <= (manager.balance),
+            "amount in excess of balance"
+        );
+        _payTo(campaigns[_id].owner, (raisedAmount - fee));
 
         //send to platform
-        require(
-            fee <= (campaigns[_id].owner.balance),
-            "fee in excess of balance"
-        );
+        require(fee <= (manager.balance), "fee in excess of balance");
         _payTo(platformAddress, fee);
 
         emit Action(_id, "Funds Withdrawn", msg.sender, block.timestamp);
+        emit Addr(addr);
 
         return true;
     }
