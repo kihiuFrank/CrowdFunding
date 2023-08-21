@@ -6,6 +6,9 @@ import WithdrawCard from "./WithdrawCard";
 import { useStateContext } from "../context";
 import { loader } from "../assets";
 
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 const WithdrawFromCampaigns = ({ title, campaigns }) => {
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -18,14 +21,18 @@ const WithdrawFromCampaigns = ({ title, campaigns }) => {
   console.log(state);
 
   const handleWithdraw = async () => {
-    setIsLoading(true);
+    if (state.amountCollected == 0) {
+      toast.error("Error!!! You don't have any donations, yet.");
+    } else {
+      setIsLoading(true);
 
-    console.log("state", state.pId);
+      console.log("state", state.pId);
 
-    await withdraw(state.pId);
+      await withdraw(state.pId);
 
-    navigate("/");
-    setIsLoading(false);
+      navigate("/");
+      setIsLoading(false);
+    }
   };
 
   return (

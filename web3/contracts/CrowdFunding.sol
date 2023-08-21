@@ -181,7 +181,8 @@ contract CrowdFunding {
     function _refundDonators(uint _id) public {
         Campaign storage campaign = campaigns[_id];
         for (uint i; i < campaign.donators.length; i++) {
-            _payTo(campaign.donators[i], campaign.donations[i]);
+            //_payTo(campaign.donators[i], campaign.donations[i]);
+            payable(campaign.donators[i]).transfer(campaign.donations[i]);
             campaign.donations[i] = 0;
             campaign.amountCollected = 0;
         }
@@ -202,23 +203,27 @@ contract CrowdFunding {
     ) public authorisedPerson(_id) returns (bool) {
         (uint256 raisedAmount, uint256 fee) = calculatePlatformFee(_id);
 
-        balances[msg.sender] = 0; // updating adress balance before atually withdrawing to prevent re-entracy attacks.
+        //balances[msg.sender] = 0; // updating adress balance before atually withdrawing to prevent re-entracy attacks.
 
         //send to campaign owner
-        _payTo(campaigns[_id].owner, (raisedAmount - fee));
+        //_payTo(campaigns[_id].owner, (raisedAmount - fee));
+        //payable(campaigns[_id].owner).transfer(raisedAmount - fee);
 
         //send to platform
-        _payTo(manager, fee);
+        //_payTo(manager, fee);
+        (bool success, ) = payable(manager).call{value: fee}("");
+        require(success, "transfer failed");
 
         emit Action(_id, "Funds Withdrawn", msg.sender, block.timestamp);
 
         return true;
     }
 
-    function _payTo(address to, uint256 amount) internal {
-        (bool success, ) = payable(to).call{value: amount}("");
-        require(success);
-    }
+    // function _payTo(address to, uint256 amount) internal {
+    //     require(amount > 0, "Can't send 0");
+    //     (bool success, ) = payable(to).call{value: amount}("");
+    //     require(success);
+    // }
 
     function getDonators(
         uint256 _id
