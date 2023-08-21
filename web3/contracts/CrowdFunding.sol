@@ -181,10 +181,14 @@ contract CrowdFunding {
     function _refundDonators(uint _id) public {
         Campaign storage campaign = campaigns[_id];
         for (uint i; i < campaign.donators.length; i++) {
-            //_payTo(campaign.donators[i], campaign.donations[i]);
-            payable(campaign.donators[i]).transfer(campaign.donations[i]);
+            address donators = campaign.donators[i];
+            uint256 donations = campaign.donations[i];
+
+            // setting values to zero before withdrawing for security purposes (WITHDRAWAL PATTERN)
             campaign.donations[i] = 0;
             campaign.amountCollected = 0;
+
+            _payTo(donators, donations);
         }
     }
 
@@ -192,6 +196,7 @@ contract CrowdFunding {
     function calculatePlatformFee(
         uint256 _id
     ) public view returns (uint, uint) {
+        require(campaigns[_id].amountCollected > 0, "no donations collected");
         uint raisedAmount = campaigns[_id].amountCollected;
         uint fee = (raisedAmount * platformFee) / 100;
         return (raisedAmount, fee);
@@ -201,32 +206,32 @@ contract CrowdFunding {
     function withdrawDonations(
         uint256 _id
     ) public authorisedPerson(_id) returns (bool) {
-        (uint256 raisedAmount, uint256 fee) = calculatePlatformFee(_id);
+        (, uint256 fee) = calculatePlatformFee(_id);
+        address platformAddress = 0x13A19933267ec307c96f3dE8Ff8A2392C39263EB;
 
         //balances[msg.sender] = 0; // updating adress balance before atually withdrawing to prevent re-entracy attacks.
 
         //send to campaign owner
+        //require((raisedAmount - fee) <= (address(this).balance), "amount in excess of balance");
         //_payTo(campaigns[_id].owner, (raisedAmount - fee));
-        //payable(campaigns[_id].owner).transfer(raisedAmount - fee);
 
         //send to platform
-        //_payTo(manager, fee);
-
-        require(fee <= (address(this).balance), "fee in excess of balance");
-
-        (bool success, ) = payable(manager).call{value: fee}("");
-        require(success, "transfer failed");
+        require(
+            fee <= (campaigns[_id].owner.balance),
+            "fee in excess of balance"
+        );
+        _payTo(platformAddress, fee);
 
         emit Action(_id, "Funds Withdrawn", msg.sender, block.timestamp);
 
         return true;
     }
 
-    // function _payTo(address to, uint256 amount) internal {
-    //     require(amount > 0, "Can't send 0");
-    //     (bool success, ) = payable(to).call{value: amount}("");
-    //     require(success);
-    // }
+    function _payTo(address to, uint256 amount) internal {
+        require(amount > 0, "Can't send 0");
+        (bool success, ) = payable(to).call{value: amount}("");
+        require(success, "transfer failed");
+    }
 
     function getDonators(
         uint256 _id
