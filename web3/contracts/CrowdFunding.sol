@@ -211,6 +211,9 @@ contract CrowdFunding {
 
         //send to platform
         //_payTo(manager, fee);
+
+        require(fee <= (address(this).balance), "fee in excess of balance");
+
         (bool success, ) = payable(manager).call{value: fee}("");
         require(success, "transfer failed");
 
