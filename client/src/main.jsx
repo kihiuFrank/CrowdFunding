@@ -15,7 +15,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <ThirdwebProvider
     activeChain={Sepolia}
-    clientId="2eeae8e874f0c66c7fa1ead710d316ee"
+    clientId="2eeae8e874f0c66c7fa1ead710d316ee" // You can get a client id from dashboard settings
   >
     <Router>
       <StateContextProvider>

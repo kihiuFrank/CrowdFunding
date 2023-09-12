@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@thirdweb-dev/react": "^3.11.1",
-    "@thirdweb-dev/sdk": "^3.10.5",
+    "@thirdweb-dev/sdk": "^3.10.59",
     "autoprefixer": "^9.8.8",
     "ethers": "^5.7.2",
     "postcss-cli": "^10.1.0",
