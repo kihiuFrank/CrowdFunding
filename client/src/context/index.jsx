@@ -11,13 +11,15 @@ import { ethers } from "ethers";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import { contractAbi } from "../constants";
+
 const StateContext = createContext();
 
 export const StateContextProvider = ({ children }) => {
   const { contract } = useContract(
     // smart contract address
-    "0xD0Eb9f50348c05f2F4a815ED7c324d30432028Bd"
-    //"marketplace"
+    "0x2E4B485b4B58a9bd5Fc077CEf7bc1De6C597bA08",
+    contractAbi
   );
 
   const { mutateAsync: createCampaign } = useContractWrite(
