@@ -25,7 +25,7 @@ const Icon = ({ styles, name, imgUrl, isActive, disabled, handleClick }) => (
 
         <p
           className={` font-epilogue font-semibold text-[14px] ${
-            isActive === name ? "text-[#1dc071]" : "text-[#808191]"
+            isActive === name ? "text-[#b6049f]" : "text-[#808191]"
           }`}
         >
           {name}

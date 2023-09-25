@@ -86,7 +86,7 @@ const CampaignDetails = () => {
 
           <div className="relative w-full h-[5px] bg-[#3a3a43] mt-2">
             <div
-              className="absolute h-full bg-[#4acd8d]"
+              className="absolute h-full bg-[#b6049f]"
               style={{
                 width: `${calculateBarPercentage(
                   state.target,
@@ -218,7 +218,7 @@ const CampaignDetails = () => {
               <CustomButton
                 btnType="button"
                 title="Fund Campaign"
-                styles="w-full bg-[#8c6dfd]"
+                styles="w-full bg-[#ac73ff]"
                 handleClick={handleDonate}
               />
             </div>
@@ -233,7 +233,7 @@ const CampaignDetails = () => {
               btnType="button"
               id={state.pId}
               title="Update Campaign"
-              styles="w-[40%] bg-[#8c6dfd]"
+              styles="w-[40%] bg-[#ac73ff]"
               handleClick={handleUpdate}
             />
 

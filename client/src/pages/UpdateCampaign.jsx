@@ -101,7 +101,7 @@ const UpdateCampaign = () => {
           handleChange={(e) => handleFormFieldChange("description", e)}
         />
 
-        <div className="w-full flex justify-start items-center p-4 bg-[#8c6dfd] rounded-[10px]">
+        <div className="w-full flex justify-start items-center p-4 bg-[#ac73ff] rounded-[10px]">
           <img
             src={money}
             alt="money"
@@ -141,7 +141,7 @@ const UpdateCampaign = () => {
           <CustomButton
             btnType="submit"
             title="Update campaign"
-            styles="bg-[#1dc071]"
+            styles="bg-[#b6049f]"
           />
         </div>
       </form>
